@@ -38,13 +38,20 @@ class Card:
                 return False
         return True
 
+    def __str__(self):
+        card_string = '-' * 26 + '\n'
+        card_string += '\n'.join(row for row in self.rows)
+        card_string += '\n' + '-' * 26
+        return card_string
 
-# Выводит карточку по формату
-def card_to_string(card):
-    card_string = '-' * 26 + '\n'
-    card_string += '\n'.join(row for row in card.rows)
-    card_string += '\n' + '-' * 26
-    return card_string
+    def __repr__(self):
+        return f'Card(rows={self.rows})'
+
+    def __eq__(self, other):
+        return self.rows == other.rows
+
+    def __ne__(self, other):
+        return not self == other
 
 
 class Player:
@@ -54,7 +61,7 @@ class Player:
 
     #Определение наличия числа в карточки пользователем
     def mark_or_continue(self, number):
-        print(f"Ваша карточка, {self.name}:\n{card_to_string(self.card)}")
+        print(f"Ваша карточка, {self.name}:\n{self.card}")
         choice = input(f"Число {number} есть на вашей карточке, зачеркнуть? (Y/N) ").lower()
         if choice == 'y':
             return self.card.mark_number(number)
@@ -67,11 +74,16 @@ class Player:
     def has_won(self):
         return self.card.has_won()
 
+    def __eq__(self, other):
+        return self.name == other.name and self.card == other.card
+
+    def __ne__(self, other):
+        return not self == other
+
 
 class LottoGame:
     def __init__(self):
-       # self.player = Player(input("Введите ваше имя: "))
-        self.player = Player("Введите ваше имя: ")
+        self.player = Player(input("Введите ваше имя: "))
         self.computer = Player("Computer")
         self.remaining_numbers = list(range(1, 91))
 
@@ -93,7 +105,7 @@ class LottoGame:
                 break
 
             print("Карточка компьютера:")
-            print(card_to_string(self.computer.card))
+            print(self.computer.card)
 
             computer_marked = self.computer.card.mark_number(drawn_number)
             print("Компьютер зачеркивает число." if computer_marked else "Компьютер продолжает игру.")
@@ -104,6 +116,13 @@ class LottoGame:
             elif self.computer.has_won():
                 print("Компьютер выиграл!")
                 break
+
+    def __eq__(self, other):
+        return self.player == other.player and self.computer == other.computer and self.remaining_numbers == other.remaining_numbers
+
+    def __ne__(self, other):
+        return not self == other
+
 
 if __name__ == "__main__":
     game = LottoGame()

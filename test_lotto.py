@@ -18,6 +18,18 @@ class TestCard(unittest.TestCase):
         card = Card()
         self.assertFalse(card.has_won())
 
+    def test_repr(self):
+        card = Card()
+        expected_repr = f'Card(rows={card.rows})'
+        self.assertEqual(repr(card), expected_repr)
+
+    def test_str(self):
+        card = Card()
+        expected_str = '-' * 26 + '\n'
+        expected_str += '\n'.join(row for row in card.rows)
+        expected_str += '\n' + '-' * 26
+        self.assertEqual(str(card), expected_str)
+
 class TestPlayer(unittest.TestCase):
 
     def test_has_won(self):

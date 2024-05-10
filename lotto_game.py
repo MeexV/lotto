@@ -70,7 +70,8 @@ class Player:
 
 class LottoGame:
     def __init__(self):
-        self.player = Player(input("Введите ваше имя: "))
+       # self.player = Player(input("Введите ваше имя: "))
+        self.player = Player("Введите ваше имя: ")
         self.computer = Player("Computer")
         self.remaining_numbers = list(range(1, 91))
 
